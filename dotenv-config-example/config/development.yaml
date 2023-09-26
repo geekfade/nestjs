@@ -1,0 +1,5 @@
+# @format
+
+db:
+  host: 'yourMain2.com'
+  port: 5400

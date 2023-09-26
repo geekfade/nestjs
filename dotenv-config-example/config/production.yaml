@@ -1,0 +1,12 @@
+# @format
+
+# {
+#   "db": {
+#     "host": "localhost11",
+#     "port": 54321
+#   }
+# }
+
+db:
+  host: 'yourMain1.com'
+  port: 54321
