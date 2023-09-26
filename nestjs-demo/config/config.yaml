@@ -1,0 +1,9 @@
+db1:
+  mysql:
+    host: localhost
+    port: 3306
+    username: test-name
+
+  mysql2:
+    host: localhost
+    port: 3306

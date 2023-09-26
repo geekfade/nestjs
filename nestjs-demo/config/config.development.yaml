@@ -1,0 +1,6 @@
+db1:
+  # mysql:
+  #   username: mysql-dev
+
+  mysql2:
+    username: mysql-dev
