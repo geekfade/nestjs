@@ -6,3 +6,8 @@ export const ConfigEnum = {
   DB_NAME: 'DB_NAME',
   DB_TYPE: 'DB_TYPE',
 };
+
+export const LogEnum = {
+  LOG_ON: 'LOG_ON',
+  LOG_LEVEL: 'LOG_LEVEL',
+};
