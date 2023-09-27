@@ -7,9 +7,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Logs } from 'src/logs/logs.entity';
-import { Roles } from 'src/roles/roles.entity';
 import { Profile } from './profile.entity';
+import { Logs } from '../logs/logs.entity';
+import { Roles } from '../roles/roles.entity';
 
 @Entity()
 export class User {
