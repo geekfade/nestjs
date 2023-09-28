@@ -3,7 +3,6 @@
 <script setup lang="ts"></script>
 <template>
   <div>
-    <i class="fas fa-wrench"></i>
     <table class="table table-bordered table-hover table-striped">
       <thead>
         <tr>

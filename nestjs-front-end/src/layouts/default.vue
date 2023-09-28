@@ -9,10 +9,10 @@ const store = userMenuStore();
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-3">
+      <div class="col-2 bg-secondary vh-100 text-white p-0">
         <SidebarNav :menuItems="store.menus" />
       </div>
-      <div class="col-9">
+      <div class="p-0" style="flex: 1">
         <div class="container-fluid">
           <HeaderNav />
           <router-view />
