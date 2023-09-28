@@ -1,0 +1,7 @@
+<!-- @format -->
+
+<script setup lang="ts"></script>
+<template>
+  <div>角色</div>
+</template>
+<style lang="scss" scoped></style>
