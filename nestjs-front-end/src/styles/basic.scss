@@ -1,0 +1,14 @@
+/** @format */
+/**
+ * This file imports the necessary Bootstrap SCSS files for the basic styling of the NestJS front-end application.
+ * It includes functions, variables, maps, mixins, root, and utilities.
+ */
+@import '~bootstrap/scss/functions';
+
+@import '~bootstrap/scss/variables';
+
+@import '~bootstrap/scss/maps';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/root';
+
+@import '~bootstrap/scss/utilities';
