@@ -36,7 +36,8 @@ function buildConnectionOptions() {
     synchronize: true, // 同步
     autoLoadEntities: true, // 自动加载实体
     // logging: ['error', 'warn'],
-    logging: false, // 打印错误日志
+    logging: process.env.NODE_ENV === 'development',
+    // logging: false, // 打印错误日志
   } as TypeOrmModuleOptions;
 }
 
