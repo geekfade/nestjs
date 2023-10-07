@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { Logs } from '../logs/logs.entity';
 import { getUserDto } from './dto/get-user.dto';
+import { conditionUtils } from 'src/utils/db.helper';
 
 @Injectable()
 export class UserService {
@@ -32,37 +33,57 @@ export class UserService {
   findAll(query: getUserDto) {
     const { limit, page, username, gender, role } = query;
     const take = limit || 10;
-    const skip = (page || 1 - 1) * take;
+    const skip = (page || 1 - 1) * 0;
     // SELECT * FROM user u, profile p WHERE u.id = p.userId AND u.id=r.userId and ...
     // SELECT * FROM user u LEFT JOIN profile p ON u.id = p.userId WHERE u.id=r.userId and ...
     // 分页查询 limit offset
-    return this.userRepository.find({
-      select: {
-        id: true,
-        username: true,
-        profile: {
-          gender: true,
-        },
-        roles: {
-          name: true,
-        },
-      },
-      relations: {
-        profile: true,
-        roles: true,
-      },
-      where: {
-        username,
-        profile: {
-          gender,
-        },
-        roles: {
-          id: role,
-        },
-      },
-      take,
-      skip, // 从第几条数据开始查询
-    });
+    // return this.userRepository.find({
+    //   select: {
+    //     id: true,
+    //     username: true,
+    //     profile: {
+    //       gender: true,
+    //     },
+    //     roles: {
+    //       name: true,
+    //     },
+    //   },
+    //   relations: {
+    //     profile: true,
+    //     roles: true,
+    //   },
+    //   where: {
+    //     username,
+    //     profile: {
+    //       gender,
+    //     },
+    //     roles: {
+    //       id: role,
+    //     },
+    //   },
+    //   take,
+    //   skip, // 从第几条数据开始查询
+    // });
+    let obj = {
+      'user.username': username,
+      'profile.gender': gender,
+      'roles.id': role,
+    };
+    const queryBuilder = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.profile', 'profile')
+      .leftJoinAndSelect('user.roles', 'roles');
+
+    const newQuery = conditionUtils<User>(queryBuilder, obj);
+
+    return (
+      newQuery
+        .take(take)
+        .skip(skip)
+        // .andWhere('profile.gender = :gender', { gender })
+        // .andWhere('roles.id = :role', { role })
+        .getMany()
+    );
   } // find方法不接收参数，表示查询所有数据
 
   find(username: string) {
@@ -75,7 +96,14 @@ export class UserService {
 
   async create(user: User) {
     const newUser = await this.userRepository.create(user);
-    return this.userRepository.save(newUser);
+    const res = await this.userRepository.save(newUser);
+    return res;
+    // try {
+    // } catch (error) {
+    //   if (error?.errno && error?.errno === 1062) {
+    //     throw new HttpException(error?.sqlMessage, 500);
+    //   }
+    // }
   } // create方法接收一个参数，要创建的数据
 
   update(id: number, user: Partial<User>) {

@@ -5,12 +5,12 @@ import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 import { AppModule } from './app.module';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-// import { Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 // import { HttpExceptionFilter } from './filters/http-exception.filter';
-// import { AllExceptionFilter } from './filters/all-exception.filter';
+import { AllExceptionFilter } from './filters/all-exception.filter';
 
 async function bootstrap() {
-  // const logger = new Logger();
+  const logger = new Logger();
   // const instance = createLogger({
   //   transports: [],
   // });
@@ -22,11 +22,12 @@ async function bootstrap() {
     // bufferLogs: true, // 缓冲日志
     // logger,
   });
-  app.setGlobalPrefix('/api/v1');
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-  // const httpAdapter = app.get(HttpAdapterHost);
+  app.setGlobalPrefix('/api/v1');
+
+  const httpAdapter = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new HttpExceptionFilter(logger));
-  // app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter));
+  app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter));
   const port = process.env.PORT || 8000;
   await app.listen(port);
   // logger.warn(`App 运行在 http://localhost:${port}`);
