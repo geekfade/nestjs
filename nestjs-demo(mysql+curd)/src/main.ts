@@ -23,7 +23,7 @@ async function bootstrap() {
     // logger,
   });
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-  app.setGlobalPrefix('/api/v1');
+  app.setGlobalPrefix('api/v1');
 
   const httpAdapter = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new HttpExceptionFilter(logger));

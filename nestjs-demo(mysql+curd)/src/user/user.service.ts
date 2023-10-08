@@ -111,19 +111,24 @@ export class UserService {
   } // Partial<User> 表示User的部分属性
 
   async remove(id: number) {
+    console.log(
+      '🚀 ~ file: user.service.ts:114 ~ UserService ~ remove ~ id:',
+      id,
+    );
     // 删除数据，判断是否删除成功
-    const { affected } = await this.userRepository.delete(id);
-    if (affected === 0) {
-      return {
-        code: 400,
-        message: '删除用户失败',
-      };
-    } else {
-      return {
-        code: 200,
-        message: '删除用户成功',
-      };
-    }
+    const user = await this.findOne(id);
+    return this.userRepository.remove(user);
+    // if (affected === 0) {
+    //   return {
+    //     code: 400,
+    //     message: '删除用户失败',
+    //   };
+    // } else {
+    //   return {
+    //     code: 200,
+    //     message: '删除用户成功',
+    //   };
+    // }
   } // delete方法接收一个参数，要删除的id
 
   findUserProfile(id: number) {
@@ -138,7 +143,9 @@ export class UserService {
   async findUserLogs(id: number) {
     const user = await this.findOne(id);
     return this.logsRepository.find({
-      where: { user },
+      where: {
+        user: user.logs,
+      },
       // relations: {
       //   user: true,
       // },

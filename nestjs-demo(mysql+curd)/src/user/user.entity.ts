@@ -1,4 +1,6 @@
 import {
+  AfterInsert,
+  AfterRemove,
   Column,
   Entity,
   JoinTable,
@@ -31,4 +33,14 @@ export class User {
 
   @OneToOne(() => Profile, (profile) => profile.user)
   profile: Profile;
+
+  @AfterInsert()
+  afterInsert() {
+    console.log('触发了afterInsert', this.id, this.username);
+  }
+
+  @AfterRemove()
+  afterRemove() {
+    console.log('触发了afterRemove');
+  }
 }

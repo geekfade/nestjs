@@ -25,7 +25,7 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { getUserDto } from './dto/get-user.dto';
 import { TypeormFilter } from 'src/filters/typeorm.filter';
 
-@Controller('user/')
+@Controller('user')
 @UseFilters(new TypeormFilter())
 export class UserController {
   // private logger = new Logger(UserController.name);
@@ -89,13 +89,21 @@ export class UserController {
   //   return this.userService.update(user.id, user);
   // }
 
-  @Delete(':id')
-  deleteUser(@Param('id') id: number) {
+  @Delete('/:id')
+  removeUser(@Param('id') id: number): any {
+    console.log(
+      '🚀 ~ file: user.controller.ts:94 ~ UserController ~ removeUser ~ id:',
+      id,
+    );
     return this.userService.remove(id);
   }
 
   // @Get('delete')
   // deleteUser(@Query('id') id: number) {
+  //   console.log(
+  //     '🚀 ~ file: user.controller.ts:103 ~ UserController ~ deleteUser ~ id:',
+  //     id,
+  //   );
   //   return this.userService.remove(id);
   // }
 
