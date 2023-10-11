@@ -11,6 +11,7 @@ import {
   LoggerService,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -24,6 +25,8 @@ import { User } from './user.entity';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { getUserDto } from './dto/get-user.dto';
 import { TypeormFilter } from '../filters/typeorm.filter';
+import { CreateUserPipe } from './pipes/create-user/create-user.pipe';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('user')
 @UseFilters(new TypeormFilter())
@@ -72,8 +75,9 @@ export class UserController {
   // }
 
   @Post()
-  async addUser(@Body() dto: User, @Req() req: any) {
-    return await this.userService.create(dto);
+  addUser(@Body(CreateUserPipe) dto: CreateUserDto) {
+    const user = dto as User;
+    return this.userService.create(user);
   }
 
   @Patch('/:id')
@@ -108,13 +112,13 @@ export class UserController {
   //   return this.userService.remove(id);
   // }
 
-  @Get('profile')
-  getUserProfile(@Query() query: any) {
+  @Get('/profile')
+  getUserProfile(@Query('id', ParseIntPipe) id: any) {
     console.log(
-      '🚀 ~ file: user.controller.ts:98 ~ UserController ~ getUserProfile ~ query:',
-      query,
+      '🚀 ~ file: user.controller.ts:113 ~ UserController ~ getUserProfile ~ id:',
+      id,
     );
-    return this.userService.findUserProfile(9);
+    return this.userService.findUserProfile(id);
   }
 
   @Get('logs')

@@ -14,8 +14,8 @@ export class TypeormFilter implements ExceptionFilter {
     response.status(500).json({
       code: code,
       timestamp: new Date().toISOString(),
-      //   path: request.url,
-      //   method: request.method,
+      // path: request.url,
+      // method: request.method,
       message: exception.message,
     }); // 响应状态码
   }

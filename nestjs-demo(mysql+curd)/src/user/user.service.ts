@@ -91,6 +91,10 @@ export class UserService {
   } // findOne方法接收一个参数，要查询的id
 
   async create(user: User) {
+    if (!user.roles) {
+      const role = await this.rolesRepository.findOne({ where: { id: 2 } });
+      user.roles = [role];
+    }
     if (user.roles instanceof Array && typeof user.roles[0] === 'number') {
       user.roles = await this.rolesRepository.find({
         where: { id: In(user.roles) },

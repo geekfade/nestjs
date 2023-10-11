@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import * as requestIp from 'request-ip';
-import { QueryFailedError } from 'typeorm';
+// import { QueryFailedError } from 'typeorm';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
@@ -26,13 +26,13 @@ export class AllExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR; // 获取状态码
-    let msg: string = '';
+    const msg: unknown = exception['response'] || 'Internal Server Error';
     // 处理多种异常
     // if (exception instanceof QueryFailedError) {
     //   msg = exception.message;
-    //   // if (exception.driverError.errno === 1062) {
-    //   //   msg = '数据重复';
-    //   // }
+    //   if (exception.driverError.errno === 1062) {
+    //     msg = '数据重复';
+    //   }
     // }
 
     const responseBody = {

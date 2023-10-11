@@ -1,16 +1,14 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { createLogger } from 'winston';
-import * as winston from 'winston';
+import { NestFactory } from '@nestjs/core';
 // import { WinstonModule, utilities } from 'nest-winston';
 import 'winston-daily-rotate-file';
 import { AppModule } from './app.module';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { Logger } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 // import { HttpExceptionFilter } from './filters/http-exception.filter';
-import { AllExceptionFilter } from './filters/all-exception.filter';
+// import { AllExceptionFilter } from './filters/all-exception.filter';
 
 async function bootstrap() {
-  const logger = new Logger();
+  // const logger = new Logger();
   // const instance = createLogger({
   //   transports: [],
   // });
@@ -25,9 +23,16 @@ async function bootstrap() {
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   app.setGlobalPrefix('api/v1');
 
-  const httpAdapter = app.get(HttpAdapterHost);
+  // const httpAdapter = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new HttpExceptionFilter(logger));
-  app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter));
+  // app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter));
+
+  // 全局管道
+  app.useGlobalPipes(
+    new ValidationPipe({
+      // whitelist: true, // 自动过滤掉没有定义的属性,防止恶意输入
+    }),
+  );
   const port = process.env.PORT || 8000;
   await app.listen(port);
   // logger.warn(`App 运行在 http://localhost:${port}`);

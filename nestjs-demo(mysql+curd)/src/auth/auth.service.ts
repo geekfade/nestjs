@@ -10,7 +10,8 @@ export class AuthService {
     const res = await this.userService.findAll({ username } as getUserDto);
     return res;
   }
-  signup(username: string, password: string) {
-    return { username, password };
+  async signup(username: string, password: string) {
+    const res = await this.userService.findAll({ username } as getUserDto);
+    return res;
   }
 }
