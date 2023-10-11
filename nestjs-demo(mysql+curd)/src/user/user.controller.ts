@@ -23,7 +23,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from './user.entity';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { getUserDto } from './dto/get-user.dto';
-import { TypeormFilter } from 'src/filters/typeorm.filter';
+import { TypeormFilter } from '../filters/typeorm.filter';
 
 @Controller('user')
 @UseFilters(new TypeormFilter())
@@ -76,14 +76,18 @@ export class UserController {
     return await this.userService.create(dto);
   }
 
-  @Patch(':id')
-  updateUser(@Body() dto: User, @Param('id') id: number) {
-    console.log(
-      '🚀 ~ file: user.controller.ts:85 ~ UserController ~ updateUser ~ id:',
-      id,
-    );
+  @Patch('/:id')
+  updateUser(
+    @Body() dto: User,
+    @Param('id') id: number,
+    @Headers('Authorization') headers: any,
+  ) {
     // 判断用户是否存在，判断用户是否有权限
-    return this.userService.update(id, dto);
+    if (id === headers) {
+      return this.userService.update(id, dto);
+    } else {
+      throw new UnauthorizedException('用户不存在');
+    }
   }
   // @Post('update')
   // updateUser(@Body() user: User) {
