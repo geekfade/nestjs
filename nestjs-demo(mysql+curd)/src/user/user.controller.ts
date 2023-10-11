@@ -73,15 +73,16 @@ export class UserController {
 
   @Post()
   async addUser(@Body() dto: User, @Req() req: any) {
-    console.log(
-      'dto ~ file: user.controller.ts:56 ~ UserController ~ addUser ~ user:',
-      dto,
-    );
     return await this.userService.create(dto);
   }
 
   @Patch(':id')
-  updateUser(@Body() dto: any, @Param() id: number) {
+  updateUser(@Body() dto: User, @Param('id') id: number) {
+    console.log(
+      '🚀 ~ file: user.controller.ts:85 ~ UserController ~ updateUser ~ id:',
+      id,
+    );
+    // 判断用户是否存在，判断用户是否有权限
     return this.userService.update(id, dto);
   }
   // @Post('update')
@@ -91,10 +92,6 @@ export class UserController {
 
   @Delete('/:id')
   removeUser(@Param('id') id: number): any {
-    console.log(
-      '🚀 ~ file: user.controller.ts:94 ~ UserController ~ removeUser ~ id:',
-      id,
-    );
     return this.userService.remove(id);
   }
 
@@ -113,7 +110,7 @@ export class UserController {
       '🚀 ~ file: user.controller.ts:98 ~ UserController ~ getUserProfile ~ query:',
       query,
     );
-    return this.userService.findUserProfile(5);
+    return this.userService.findUserProfile(9);
   }
 
   @Get('logs')

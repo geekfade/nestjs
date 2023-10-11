@@ -106,8 +106,14 @@ export class UserService {
     // }
   } // create方法接收一个参数，要创建的数据
 
-  update(id: number, user: Partial<User>) {
-    return this.userRepository.update(id, user); // update方法接收两个参数，第一个是要更新的id，第二个是要更新的数据
+  async update(id: number, user: Partial<User>) {
+    const userTemp = await this.findUserProfile(id);
+    const newUser = this.userRepository.merge(userTemp, user);
+    // // 联合更新
+    return this.userRepository.save(newUser);
+
+    // 以下方法只适合单表更新
+    // return this.userRepository.update(id, user); // update方法接收两个参数，第一个是要更新的id，第二个是要更新的数据
   } // Partial<User> 表示User的部分属性
 
   async remove(id: number) {
@@ -131,7 +137,7 @@ export class UserService {
     // }
   } // delete方法接收一个参数，要删除的id
 
-  findUserProfile(id: number) {
+  findUserProfile(id: any) {
     return this.userRepository.findOne({
       where: { id },
       relations: {
@@ -146,9 +152,9 @@ export class UserService {
       where: {
         user: user.logs,
       },
-      // relations: {
-      //   user: true,
-      // },
+      relations: {
+        user: true,
+      },
     });
   } // 通过用户id查询用户的所有日志
 
