@@ -82,15 +82,18 @@ export class UserService {
     return newQuery.take(take).skip(skip).getMany();
   } // find方法不接收参数，表示查询所有数据
 
-  find(username: string) {
-    return this.userRepository.find({ where: { username } });
+  find(username: string): Promise<any> {
+    return this.userRepository.findOne({
+      where: { username },
+      relations: ['roles'],
+    });
   } // find方法接收一个参数，要查询的数据
 
   findOne(id: number) {
     return this.userRepository.findOne({ where: { id } });
   } // findOne方法接收一个参数，要查询的id
 
-  async create(user: User) {
+  async create(user: any) {
     if (!user.roles) {
       const role = await this.rolesRepository.findOne({ where: { id: 2 } });
       user.roles = [role];

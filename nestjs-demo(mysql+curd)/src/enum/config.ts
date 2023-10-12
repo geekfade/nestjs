@@ -5,6 +5,9 @@ export const ConfigEnum = {
   DB_USERNAME: 'DB_USERNAME',
   DB_PASSWORD: 'DB_PASSWORD',
   DB_DATABASE: 'DB_DATABASE',
+
+  SECRET: 'SECRET',
+  EXPIRESIN: 'EXPIRESIN',
 };
 
 export const LogEnum = {
