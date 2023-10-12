@@ -11,9 +11,13 @@ export class AdminGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     // 2. 获取用户对象,判断用户是否有权限
     const user = (await this.userService.find(request.user.username)) as User;
+    console.log(
+      '🚀 ~ file: admin.guard.ts:14 ~ AdminGuard ~ canActivate ~ user:',
+      user,
+    );
     // 3. 判断用户是否有权限
     // roles 2：普通用户 1：管理员 示例代码
-    if (user.roles.filter((o) => o.id === 4).length > 0) {
+    if (user.roles.filter((o) => o.id === 2).length > 0) {
       return true;
     }
     return false;

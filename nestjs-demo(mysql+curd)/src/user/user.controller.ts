@@ -28,12 +28,14 @@ import { getUserDto } from './dto/get-user.dto';
 import { TypeormFilter } from '../filters/typeorm.filter';
 import { CreateUserPipe } from './pipes/create-user/create-user.pipe';
 import { CreateUserDto } from './dto/create-user.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { AdminGuard } from '../guards/admin/admin.guard';
 import { UpdateGuard } from '../guards/update/update.guard';
+import { JwtGuard } from '../guards/jwt.guard';
 
 @Controller('user')
 @UseFilters(new TypeormFilter())
+// @UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 export class UserController {
   // private logger = new Logger(UserController.name);
   constructor(
@@ -55,7 +57,7 @@ export class UserController {
   // 1.装饰器的顺序，方法如果有多个装饰器，从下到上执行
   // 2.如果使用UseGuards传递多个守卫，则从左到右执行，如果前面的Guard没有通过，则后面的Guard不会执行
   // @UseGuards(AdminGuard)
-  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  @UseGuards(AdminGuard)
   getUsers(@Query() query: getUserDto): any {
     // 前端传递的参数的类型默认都是string，需要转换
     // page: 1, limit: 10，condition: { username,roles,profile,gender,age }，sort: { username: 'desc' }
@@ -89,7 +91,7 @@ export class UserController {
   }
 
   @Patch('/:id')
-  @UseGuards(AuthGuard('jwt'), UpdateGuard)
+  @UseGuards(UpdateGuard)
   updateUser(
     @Body() dto: User,
     @Param('id') id: number,
@@ -122,7 +124,7 @@ export class UserController {
   // }
 
   @Get('/profile')
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   getUserProfile(
     @Query('id', ParseIntPipe) id: any,
     // 通过jwt验证后，会将用户信息存储在req.user中,passport-jwt的配置
