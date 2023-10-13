@@ -4,6 +4,7 @@ import 'winston-daily-rotate-file';
 import { AppModule } from './app.module';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { ValidationPipe } from '@nestjs/common';
+import { SerializeInterceptor } from './interceptors/serialize/serialize.interceptor';
 // import { HttpExceptionFilter } from './filters/http-exception.filter';
 // import { AllExceptionFilter } from './filters/all-exception.filter';
 
@@ -30,9 +31,14 @@ async function bootstrap() {
   // 全局管道
   app.useGlobalPipes(
     new ValidationPipe({
-      // whitelist: true, // 自动过滤掉没有定义的属性,防止恶意输入
+      whitelist: true, // 自动过滤掉没有定义的属性,防止恶意输入
     }),
   );
+
+  // app.useGlobalGuards(); // 全局守卫 -弊端：无法di注入，无法访问UserModule中的service
+
+  // app.useGlobalInterceptors(new SerializeInterceptor()); // 全局拦截器
+
   const port = process.env.PORT || 8000;
   await app.listen(port);
   // logger.warn(`App 运行在 http://localhost:${port}`);

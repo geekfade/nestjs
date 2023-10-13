@@ -6,6 +6,7 @@ import { Logs } from '../logs/logs.entity';
 import { Roles } from '../roles/roles.entity';
 import { getUserDto } from './dto/get-user.dto';
 import { conditionUtils } from '../utils/db.helper';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
@@ -93,7 +94,7 @@ export class UserService {
     return this.userRepository.findOne({ where: { id } });
   } // findOne方法接收一个参数，要查询的id
 
-  async create(user: any) {
+  async create(user: Partial<User>) {
     if (!user.roles) {
       const role = await this.rolesRepository.findOne({ where: { id: 2 } });
       user.roles = [role];
@@ -104,6 +105,8 @@ export class UserService {
       });
     }
     const newUser = await this.userRepository.create(user);
+    // 对用户密码进行加密
+    newUser.password = await argon2.hash(newUser.password);
     const res = await this.userRepository.save(newUser);
     return res;
     // try {

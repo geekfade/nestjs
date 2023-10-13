@@ -12,16 +12,19 @@ import {
 import { Profile } from './profile.entity';
 import { Logs } from '../logs/logs.entity';
 import { Roles } from '../roles/roles.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
+  @Exclude()
   id: number;
 
   @Column({ unique: true })
   username: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @OneToMany(() => Logs, (logs) => logs.user, { cascade: true })

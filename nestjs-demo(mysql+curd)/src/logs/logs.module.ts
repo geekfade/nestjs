@@ -6,6 +6,7 @@ import * as winston from 'winston';
 import { Console } from 'winston/lib/winston/transports';
 import { LogsService } from './logs.service';
 import { LogsController } from './logs.controller';
+import { UserModule } from '../user/user.module';
 
 function createDailyRotateTransport(level: string, filename: string) {
   return new winston.transports.DailyRotateFile({
@@ -25,6 +26,7 @@ function createDailyRotateTransport(level: string, filename: string) {
 
 @Module({
   imports: [
+    UserModule,
     WinstonModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
