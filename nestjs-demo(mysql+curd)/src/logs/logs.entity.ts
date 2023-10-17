@@ -6,10 +6,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
+import { Expose } from 'class-transformer';
 
 @Entity()
 export class Logs {
   @PrimaryGeneratedColumn()
+  @Expose()
   id: number;
 
   @Column()
