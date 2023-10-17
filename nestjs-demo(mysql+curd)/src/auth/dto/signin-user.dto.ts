@@ -18,7 +18,9 @@ export class SigninUserDto {
   username: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: '密码不能为空',
+  })
   // @Length(6, 64)
   password: string;
 }

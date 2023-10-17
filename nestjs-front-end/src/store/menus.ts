@@ -1,5 +1,3 @@
-/** @format */
-
 import { defineStore } from 'pinia';
 
 export const userMenuStore = defineStore({
@@ -32,4 +30,5 @@ export const userMenuStore = defineStore({
       },
     ] as MenuItem[],
   }),
+  persist: true,
 });

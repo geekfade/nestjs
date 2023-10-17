@@ -1,11 +1,15 @@
-<!-- @format -->
-
 <script setup lang="ts">
+import { signIn } from '@/api/login';
 import { computed, reactive } from 'vue';
-import axios from '@/utils/axios';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store/user';
+
+interface LoginResponse {
+  access_token: string;
+}
 
 const router = useRouter();
+const store = useUserStore();
 
 const loginInfo = reactive({
   username: '',
@@ -27,11 +31,13 @@ const loginInfo = reactive({
   }),
 });
 
-const login = () => {
-  router.push('/home');
-  // axios.post('/auth/login', loginInfo).then((res) => {
-  //   console.log(res);
-  // });
+const login = async () => {
+  const { username, password } = loginInfo;
+  const res = (await signIn(username, password)) as unknown as LoginResponse;
+  if (res && res.access_token) {
+    store.$patch({ token: res.access_token });
+    router.push('/home');
+  }
 };
 </script>
 <template>

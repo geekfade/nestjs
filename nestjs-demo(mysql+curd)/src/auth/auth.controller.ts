@@ -18,7 +18,7 @@ import { SigninUserDto } from './dto/signin-user.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('/signin')
+  @Post('signin')
   async signin(@Body() dto: SigninUserDto) {
     const { username, password } = dto;
     const token = await this.authService.signin(username, password);
@@ -27,7 +27,7 @@ export class AuthController {
     };
   }
 
-  @Post('/signup')
+  @Post('signup')
   // @UseInterceptors(SerializeInterceptor)
   signup(@Body() dto: SigninUserDto) {
     const { username, password } = dto;

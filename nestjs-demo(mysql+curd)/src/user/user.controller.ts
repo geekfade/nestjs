@@ -53,7 +53,7 @@ export class UserController {
     return 'hello user';
   }
 
-  @Get('get')
+  @Get('/get')
   // 1.装饰器的顺序，方法如果有多个装饰器，从下到上执行
   // 2.如果使用UseGuards传递多个守卫，则从左到右执行，如果前面的Guard没有通过，则后面的Guard不会执行
   // @UseGuards(AdminGuard)

@@ -1,12 +1,22 @@
-<!-- @format -->
-
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { signUp } from '@/api/login';
 import { reactive } from 'vue';
 
 const loginInfo = reactive({
   username: '',
   password: '',
 });
+
+const router = useRouter();
+
+const handleSignUp = async () => {
+  const { username, password } = loginInfo;
+  const res = await signUp(username, password);
+  if (res) {
+    router.push('/login');
+  }
+};
 </script>
 <template>
   <div
@@ -37,7 +47,12 @@ const loginInfo = reactive({
           </div>
         </div>
         <div class="d-flex flex-column align-items-center px-1">
-          <button type="submit" class="btn btn-primary w-100 mb-2">注册</button>
+          <button
+            type="submit"
+            class="btn btn-primary w-100 mb-2"
+            @click.prevent="handleSignUp">
+            注册
+          </button>
           <router-link
             to="/login"
             class="w-100 border rounded text-decoration-none text-center">

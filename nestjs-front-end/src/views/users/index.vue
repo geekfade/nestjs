@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import axios from '@/utils/axios';
+import { getAllUsers } from '@/api/user';
 import { onBeforeMount, ref } from 'vue';
 const usersList = ref([] as UserItem[]);
 interface RoleItem {
@@ -19,7 +19,7 @@ interface UserItem {
 }
 
 const getUsers = async () => {
-  const res = (await axios.get('/user/get')) as [UserItem];
+  const res = (await getAllUsers()) as unknown as UserItem[];
   if (res && res.length > 0) {
     usersList.value = res;
   }
