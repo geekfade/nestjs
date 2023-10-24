@@ -34,7 +34,7 @@ export class UserService {
   //   };
   // }
 
-  findAll(query: getUserDto) {
+  async findAll(query: getUserDto) {
     const { limit, page, username, gender, role } = query;
     const take = limit || 10;
     const skip = ((page || 1) - 1) * take;
@@ -79,8 +79,11 @@ export class UserService {
       .leftJoinAndSelect('user.roles', 'roles');
 
     const newQuery = conditionUtils<User>(queryBuilder, obj);
-
-    return newQuery.take(take).skip(skip).getMany();
+    const [data, total] = await Promise.all([
+      newQuery.take(take).skip(skip).getMany(),
+      newQuery.getCount(),
+    ]);
+    return data;
   } // find方法不接收参数，表示查询所有数据
 
   find(username: string): Promise<any> {

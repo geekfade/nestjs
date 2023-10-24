@@ -58,7 +58,7 @@ export class UserController {
   // 2.如果使用UseGuards传递多个守卫，则从左到右执行，如果前面的Guard没有通过，则后面的Guard不会执行
   // @UseGuards(AdminGuard)
   @UseGuards(AdminGuard)
-  getUsers(@Query() query: getUserDto): any {
+  async getUsers(@Query() query: getUserDto): Promise<any> {
     // 前端传递的参数的类型默认都是string，需要转换
     // page: 1, limit: 10，condition: { username,roles,profile,gender,age }，sort: { username: 'desc' }
     // const user = { isAdmin: false };
@@ -78,7 +78,7 @@ export class UserController {
   // @Post('add')
   // async addUser(@Headers() user: User) {
   //   console.log(
-  //     '🚀 ~ file: user.controller.ts:56 ~ UserController ~ addUser ~ user:',
+  //     '🚀 ~ file: user.controller.ts:56  ~ UserController ~ addUser ~ user:',
   //     user,
   //   );
   //   return await this.userService.create(user);

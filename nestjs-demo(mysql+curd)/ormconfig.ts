@@ -38,6 +38,10 @@ function buildConnectionOptions() {
     // logging: ['error', 'warn'],
     logging: process.env.NODE_ENV === 'development',
     // logging: false, // 打印错误日志
+    // migrations: ['src/migrations/*.ts'],
+    // cli: {
+    //   migrationsDir: 'src/migrations',
+    // },
   } as TypeOrmModuleOptions;
 }
 

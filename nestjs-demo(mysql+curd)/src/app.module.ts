@@ -5,11 +5,12 @@ import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LogsModule } from './logs/logs.module';
-import { RolesModule } from './roles/roles.module';
 import { connectionParams } from '../ormconfig';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './guards/jwt.guard';
+import { RolesModule } from './roles/roles.module';
+import { MenusModule } from './menus/menus.module';
 
 const envFilePath = `.env.${process.env.NODE_ENV || 'development'}`;
 @Global()
@@ -74,6 +75,7 @@ const envFilePath = `.env.${process.env.NODE_ENV || 'development'}`;
     LogsModule,
     RolesModule,
     AuthModule,
+    MenusModule,
   ],
   controllers: [],
   providers: [

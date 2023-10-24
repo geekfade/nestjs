@@ -1,3 +1,4 @@
 import axios from '@/utils/axios';
 
-export const getAllUsers = () => axios.get('/user/get');
+export const getAllUsers = (data: any) =>
+  axios.get('/user/get', { params: data });
