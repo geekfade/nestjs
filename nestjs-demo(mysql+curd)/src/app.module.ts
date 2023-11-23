@@ -11,6 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './guards/jwt.guard';
 import { RolesModule } from './roles/roles.module';
 import { MenusModule } from './menus/menus.module';
+import { CommentModule } from './comment/comment.module';
 
 const envFilePath = `.env.${process.env.NODE_ENV || 'development'}`;
 @Global()
@@ -73,9 +74,10 @@ const envFilePath = `.env.${process.env.NODE_ENV || 'development'}`;
     TypeOrmModule.forRoot(connectionParams),
     UserModule,
     LogsModule,
-    RolesModule,
+    // RolesModule,
     AuthModule,
-    MenusModule,
+    // MenusModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [

@@ -18,7 +18,7 @@ export class Menus {
   acl: string;
 
   // 一个菜单对应多个角色及权限
-  @ManyToMany(() => Roles, (role) => role.menus)
-  @JoinTable({ name: 'role_menu' })
-  role: Roles;
+  // @ManyToMany(() => Roles, (role) => role.menus)
+  // @JoinTable({ name: 'role_menu' })
+  // role: Roles;
 }

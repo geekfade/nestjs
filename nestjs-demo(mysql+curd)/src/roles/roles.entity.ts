@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
-import { Menus } from 'src/menus/menu.entity';
+import { Menus } from '../menus/menu.entity';
 
 @Entity()
 export class Roles {
@@ -19,6 +19,6 @@ export class Roles {
   @ManyToMany(() => User, (user) => user.roles)
   users: User[];
 
-  @ManyToMany(() => Menus, (menu) => menu.role)
-  menus: Menus[];
+  // @ManyToMany(() => Menus, (menu) => menu.role)
+  // menus: Menus[];
 }
